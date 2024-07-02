@@ -4,4 +4,3 @@
 # Ignore .terraform.lock.hcl file
 .terraform.lock.hcl
 
-.terraform.tfstate
