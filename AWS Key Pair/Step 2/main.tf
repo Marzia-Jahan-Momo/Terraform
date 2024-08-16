@@ -8,18 +8,22 @@ resource "aws_instance" "my_web" {
   
 }
 
-resource "aws_key_pair" "my_tf_pair" {
-  key_name   = "deployer-key"
-  public_key = tls_private_key.rsa_tf.private_key_openssh
-
+resource "tls_private_key" "key_tf" {
+  algorithm = "RSA"
+  rsa_bits  = 2048
 }
 
-resource "tls_private_key" "rsa_tf" {
-  algorithm = "RSA"
-  rsa_bits  = 4096
+resource "aws_key_pair" "my_tf_key" {
+  key_name   = "Deployer key"
+  public_key = tls_private_key.key_tf.public_key_openssh
 }
 
 resource "local_file" "my_tf_key_pair" {
-  content  = tls_private_key.rsa_tf.private_key_pem
+  content  = tls_private_key.key_tf.private_key_pem
   filename = "my_tf_key_pair"
+}
+
+output "public_key_content" {
+  value     = tls_private_key.key_tf.public_key_openssh
+  sensitive = true
 }
