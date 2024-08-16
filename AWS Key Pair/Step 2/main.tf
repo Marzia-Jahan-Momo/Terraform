@@ -20,7 +20,7 @@ resource "aws_key_pair" "my_tf_key" {
 
 resource "local_file" "my_tf_key_pair" {
   content  = tls_private_key.key_tf.private_key_pem
-  filename = "my_tf_key_pair"
+  filename = "my_tf_key_pair.pem"
 }
 
 output "public_key_content" {
